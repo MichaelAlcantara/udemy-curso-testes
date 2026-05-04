@@ -1,24 +1,42 @@
 package com.MichaelAlcanatara.testesDeUnidade.domain;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
 import static com.MichaelAlcanatara.testesDeUnidade.commom.PlanetConstants.PLANET;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = PlanetService.class)
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
+//@SpringBootTest(classes = PlanetService.class)
+@ExtendWith(MockitoExtension.class)
 public class PlanetServiceTest {
 
-	@Autowired
+	//@Autowired
+	@InjectMocks
 	private PlanetService planetService;
+	
+	//@MockBean
+	@Mock
+	private PlanetRepository planetRepository;
 
-	// operacap_estado_retorno
+	// operacao_estado_retorno
 	@Test
 	public void createPlanet_WithValidData_ReturnsPlanet() {
+		
+		//AAA
+		// A -> Arrange
+		when(planetRepository.save(PLANET)).thenReturn(PLANET);
+		
+		// A -> Act
 		// sut = System Under Test
 		Planet sut = planetService.create(PLANET);
 		
+		// A -> Assert
 		assertThat(sut).isEqualTo(PLANET);
 	}
 }
