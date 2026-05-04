@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 @Entity
 @Table(name = "planets")
 public class Planet {
@@ -24,6 +26,13 @@ public class Planet {
 	public Planet(Long id, String name, String climate, String terrain) {
 		super();
 		this.id = id;
+		this.name = name;
+		this.climate = climate;
+		this.terrain = terrain;
+	}
+
+	public Planet(String name, String climate, String terrain) {
+		super();
 		this.name = name;
 		this.climate = climate;
 		this.terrain = terrain;
@@ -59,6 +68,11 @@ public class Planet {
 
 	public void setTerrain(String terrain) {
 		this.terrain = terrain;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return EqualsBuilder.reflectionEquals(obj, this);
 	}
 
 }
