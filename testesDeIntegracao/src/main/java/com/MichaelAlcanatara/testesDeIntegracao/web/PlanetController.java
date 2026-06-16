@@ -2,6 +2,8 @@ package com.MichaelAlcanatara.testesDeIntegracao.web;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +27,7 @@ public class PlanetController {
 	private PlanetService planetService;
 
 	@PostMapping
-	public ResponseEntity<Planet> create(@RequestBody Planet plant) {
+	public ResponseEntity<Planet> create(@RequestBody @Valid Planet plant) {
 		Planet planedCreated = planetService.create(plant);
 		return ResponseEntity.status(HttpStatus.CREATED).body(planedCreated);
 	}
