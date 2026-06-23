@@ -11,11 +11,14 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
 import com.MichaelAlcanatara.testesDeIntegracao.domain.Planet;
 
 @ActiveProfiles("it")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@Sql(scripts = {"/remove_planet.sql"}, executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
 public class PlanetIT {
 	
 	@Autowired
@@ -24,6 +27,7 @@ public class PlanetIT {
 	@Test
 	public void createPlanet_ReturnCreated() {
 		ResponseEntity<Planet> sut = restTemplate.postForEntity("/planets", PLANET, Planet.class);
+		
 		assertThat(sut.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 		assertThat(sut.getBody().getId()).isNotNull();
 		assertThat(sut.getBody().getName()).isEqualTo(PLANET.getName());
